@@ -1,0 +1,158 @@
+
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import os
+import webbrowser
+import pywhatkit as kit
+import random
+import sys
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+# print(voices[0],id)
+engine.setProperty('voices',voices[0].id)
+
+# text to speech
+def speak(audio):
+    engine.say(audio)
+    print(audio)
+    engine.runAndWait()
+
+def takecommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print('Ai : listening...')
+        speak('Listening now.')
+        r.pause_thresold = 1
+        audio = r.listen(source, timeout=5,phrase_time_limit=5)
+
+    try:
+      print("Ai : Recognizing...")
+      speak('OK, wait a minute')
+      query = r.recognize_google(audio, language='th')
+      print(f"user said {query}")
+    
+    except Exception as e:
+        speak("Please say it again sir...")
+        return "none"
+    return query
+
+def work():
+    hour = int(datetime.datetime.now().hour)
+
+    if hour >= 0 and hour <= 12 :
+        speak("Good morning sir")
+    elif hour > 12 and hour < 18:
+        speak("Good afternoon sir")
+    else:
+        speak("good evening")
+    wel = [
+        'Hi sir to you feel good today? i want to help you please tell me',
+        'What i can help you',
+        'Oh yeah! sir tell me some thing that i can help you',
+        'Hi did you drink coffee?, oh that not my work let tell me something to help you sir!'
+        ] 
+    ranwel = random.choice(wel)
+    speak(ranwel)
+
+if __name__ == "__main__":
+    work()
+    while True:
+
+        query = takecommand().lower()
+
+        # logic building
+        if "open notepad" in query :
+            npath = "C:\\Windows\\system32\\notepad.exe"
+            os.startfile(npath)
+            speak("im open already sir enjoy!")
+
+        elif "open zoom" in query:
+            zpath = "C:\\Users\\Acer\\AppData\\Roaming\\Zoom.exe"
+            os.startfile(zpath)
+        
+        elif "เปิด google" in query:
+            speak('Sure, what shoud i search for you?')
+            cm = takecommand().lower()
+            webbrowser.open(f'{cm}')
+
+        elif "เปิดเพลง" in query:
+            speak('Sure, but what music do you want to listen? please tell me sir.')
+            mm = takecommand().lower()
+            kit.playonyt(f"{mm}")
+
+        elif "เปิด facebook" in query:
+            webbrowser.open("facebook.com")
+            speak('im already open facebook')
+        
+        elif "เปิด youtube" in query:
+            webbrowser.open("youtube.com")
+        
+        elif "เปิด steam" in query:
+            webbrowser.open("C:\\Program Files (x86)\\Steam\\steam")
+            speak('im already open steam enjoy sir!.')
+        
+        elif "เปิด discord" in query:
+            dispath = "C:\\Users\\Acer\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc\\discord"
+            os.startfile(dispath)
+            speak('im already open discord enjoy sir!.')
+
+        # zoom logic
+        
+        elif "เปิดห้องคณิตอังกฤษ" in query:
+            webbrowser.open("https://zoom.us/j/2114175633?pwd=VjZXSmF1VFgybGlxenR4RjdjZVV4UT09")
+            speak("Ok sir im open math class in zoom already.")
+        
+        elif "เปิดห้องอังกฤษ" in query:
+            webbrowser.open("https://us04web.zoom.us/j/6622615923?pwd=RzZ0ZzlUdlF5WnVwMFYrRThnRUs4Zz09#success")
+            speak("Sure sir im open english classroom in zoom already.")
+
+        elif "เปิดห้องเคมีอังกฤษ" in query:
+            webbrowser.open("https://us04web.zoom.us/j/4066875361?pwd=MTcrR2dqcVkwWjljT25LN1dQWTEyZz09#success")
+            speak("Sure sir im open chemistry in zoom already.")
+
+        elif "เปิดห้องเคมี" in query:
+            webbrowser.open("https://us04web.zoom.us/j/6327959344?pwd=YjAzdzc0dWV3Zyt6VStXMGhFQ2UyQT09 ")
+            speak("Sure sir im open Ent.Chemi in zoom already. ")
+        
+        elif "เปิดห้องกายภาพ" in query:
+            webbrowser.open("https://us04web.zoom.us/j/6327959344?pwd=YjAzdzc0dWV3Zyt6VStXMGhFQ2UyQT09 ")
+            speak("Sure sir im open Physical in zoom already.")
+        
+        elif "เปิดห้องไทย" in query:
+            webbrowser.open(" https://zoom.us/j/3392661637?pwd=QkVQZS9CVm8zTmFHME0xbTMzdms0UT09")
+            speak("Sure sir im open thai room in zoom already.")
+
+        elif "เปิดห้องคณิต" in query:
+            webbrowser.open("https://zoom.us/j/6672623872?pwd=M20vS3FiUHExMGlOejhDaHZyQTBVQT09 ")
+            speak("Sure sir im open Ent.Math in zoom already.")
+
+    # end zoom logic
+
+        elif "18 movie" in query:
+            ppath = "C:\\Users\\Acer\\Desktop\\Porn.htm"
+            speak('im done enjoy for porn sir !')
+            os.startfile(ppath)
+        
+        elif "ปิดเครื่อง" in query:
+            kit.shutdown()
+        
+        elif "no" in query:
+            speak("see you soon sir")
+            sys.exit()
+
+        elif "ปิดแท็บ" in query:
+            speak("OK im close tab now sir.")
+            kit.close_tab()
+        
+
+        ask = [
+            'have any work more?',
+            'im done sir',
+            'im finished now!',
+            ]
+        ranask = random.choice(ask)
+        
+        speak(ranask)
+
